@@ -1,0 +1,14 @@
+.TodoFilter {
+	display: flex;
+	justify-content: space-between;
+	
+	.filter {
+		display: flex;
+
+		.filter__btn {
+			background: none;
+			border: none;
+			outline: none;
+		}
+	}
+}
