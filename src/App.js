@@ -3,7 +3,8 @@ import './App.scss';
 import TodoList from './Components/TodoList/TodoList'
 import TodoForm from './Components/TodoForm/TodoForm'
 import TodoFilter from './Components/TodoFilter/TodoFilter'
-import {Route} from 'react-router-dom'
+// import TodoPriority from './Components/TodoPriority/TodoPriority'
+import { Route } from 'react-router-dom'
 
 class App extends Component {
 
@@ -62,7 +63,7 @@ class App extends Component {
     
     let tasks = this.state.tasks.map(task => {
 
-      if (task.id === id && text !== '') {
+      if (task.id === id && text.trim() !== '') {
         task.title = text;
       } 
 
@@ -119,6 +120,8 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.tasks);
+
     const completedTasks = this.state.tasks.filter(task => task.completed);
     const activeTasks = this.state.tasks.filter(task => !task.completed);
     
@@ -169,7 +172,7 @@ class App extends Component {
             tasks={completedTasks} 
           />
         }/>
-        
+        {/* <TodoPriority /> */}
         <TodoFilter 
           tasks={this.state.tasks}
           onClick={this.clearCompletedTasks}
