@@ -1,103 +1,180 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import TodoList from './Components/TodoList/TodoList'
-import Box from './Components/hoc/Box'
 import TodoForm from './Components/TodoForm/TodoForm'
 import TodoFilter from './Components/TodoFilter/TodoFilter'
+import {Route} from 'react-router-dom'
 
 class App extends Component {
+
   state = {
-    todos: [],
-    counterTasks: 0
+    tasks: []
   }
 
-  onToggle = id => {
-    let todos = this.state.todos.map(todo => {
-
-      if (todo.id === id) {
-        todo.completed = !todo.completed
+  toggle = id => {
+    let tasks = this.state.tasks.map(task => {
+      if (task.id === id) {
+        task.completed = !task.completed;
       }
-      return todo
+      return task;
     })
-    // this.sumOfTask()
-    this.setState({
-      todos
-    })
+    this.setState({tasks});
   }
 
-  onAddButton = () => {
-    const input = document.querySelector('.TodoForm__text');
+  handelSubmit = () => {
+    const input = document.querySelector('.form__text');
     
     if (input.value.trim()) {
+
       const newTodo = {
         id: this.generationId(),
         title: input.value,
         completed: false
       }
 
-      let todos = this.state.todos;
-      console.log(todos);
-      todos.push(newTodo);
+      input.value = '';
+      let tasks = this.state.tasks;
+         
+      tasks.push(newTodo);
 
-      this.setState({
-        todos,
-        // counterTasks: this.counterTasks
-      })
+      this.setState({tasks});
     }
   }
 
   onDelete = id => {
-    let todos = this.state.todos.filter(todo => {
-      if (todo.id !== id) {
-        return todo
+    let tasks = this.state.tasks.filter(task => {
+      if (task.id !== id) {
+        return task;
       } else {
-        return null
+        return null;
       }
     })
-    this.setState({todos})
+    this.setState({tasks});
   }
 
-  onAddKeyCode = e => {
+  handelKeyDown = e => {
     if (e.keyCode === 13) {
-      document.querySelector('.TodoForm__button').click()
+      document.querySelector('.form__button').click();
     }
   }
 
-  onUpdateName = id => {
-    // Изменение таски по двойному клику
+  handelBlur = (text, id) => {
+    
+    let tasks = this.state.tasks.map(task => {
+
+      if (task.id === id && text !== '') {
+        task.title = text;
+      } 
+
+      return task;
+    })
+  
+    this.setState({tasks});
   }
 
-  // sumOfTask = () => {
-  //   this.state.todos.forEach(todo => {
-  //     if (!todo.completed) {
-  //       this.setState({counterTasks: this.counterTasks + 1})
-  //     }
-  //   })
-  // }
+  toggleAll = () => {
+    
+    let tasks = this.state.tasks;
+    if (tasks.find(task => !task.completed)) {
+
+    tasks = tasks.map(task => {
+      if (!task.completed) {
+        task.completed = !task.completed;
+      }
+
+      return task;
+    })
   
+    } else {
+      tasks = tasks.map(task => {
+        if (task.completed) {
+          task.completed = !task.completed;
+        }
+
+        return task;
+      })
+    
+    }
+    
+    this.setState({tasks});
+  }
+
+  clearCompletedTasks = () => {
+    let tasks = this.state.tasks.filter(task => !task.completed);
+    this.setState({tasks});
+  }
 
   generationId() {
     return Math.random().toString(36).substr(2, 9);
   }
 
+  componentDidMount() {
+   const tasks = JSON.parse(localStorage.getItem('tasks'));
+   this.setState({tasks});
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
+    document.querySelector('.form__text').focus();
+  }
+
   render() {
+    const completedTasks = this.state.tasks.filter(task => task.completed);
+    const activeTasks = this.state.tasks.filter(task => !task.completed);
+    
+    let classForIcon = ['wrap-icon__toggle-all', 'fas', 'fa-angle-down'];
+
+    if (completedTasks.length !== 0) {
+      classForIcon.push('wrap-icon__toggle-all_active');
+    }
+    
     return (
       <div className="App">
-        <Box 
-          input={<TodoForm 
-                  onClickAddTask={this.onAddButton}
-                  onKeyDownAddTask={this.onAddKeyCode}
-                />} 
-          list={<TodoList 
-                  onChange={this.onToggle} 
-                  onClick={this.onDelete}
-                  onDoubleClick={this.onUpdateName}
-                  todos={this.state.todos} 
-                />}
-          filter={<TodoFilter 
-                    // sumOfTask={ßthis.state.counterTasks}
-                  />}
+        <h1 className='title'>TO DO LIST APP</h1>
+        <TodoForm 
+          onClick={this.handelSubmit}
+          onKeyDown={this.handelKeyDown}
         />
+        {this.state.tasks.length ? 
+          (<div className='wrap-icon'>
+            <i 
+              className={classForIcon.join(' ')}
+              onClick={this.toggleAll}
+            />
+          </div>)
+          : 
+          null}
+          
+        <Route path='/' exact render={() => 
+          <TodoList 
+            onChange={this.toggle} 
+            onClick={this.onDelete}
+            onBlur={this.handelBlur}
+            tasks={this.state.tasks} 
+          />
+        }/>
+        <Route path='/active' render={() => 
+          <TodoList 
+            onChange={this.toggle} 
+            onClick={this.onDelete}
+            onBlur={this.onBlurHandler}
+            tasks={activeTasks} 
+          />
+        }/>
+        <Route path='/done' render={() => 
+          <TodoList 
+            onChange={this.toggle} 
+            onClick={this.onDelete}
+            onBlur={this.onBlurHandler}
+            tasks={completedTasks} 
+          />
+        }/>
+        
+        <TodoFilter 
+          tasks={this.state.tasks}
+          onClick={this.clearCompletedTasks}
+        />
+
       </div>
     );
   } 

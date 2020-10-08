@@ -3,22 +3,22 @@ import './TodoForm.scss'
 
 const TodoForm = props => {
 	return (
-		<div className='TodoForm'>
+		<div className='form'>
 			<button 
-				className='TodoForm__button'
-				onClick={() => props.onClickAddTask()}
+				className='form__button'
+				onClick={() => props.onClick()}
 			>
 				ADD
 			</button>
 			<input 
-				className='TodoForm__text' 
-				type='text'
-				onKeyDown={(e) => props.onKeyDownAddTask(e)} 
-				required/>
+				className='form__text' 
+        type='text'
+        placeholder='What needs to be done?'
+				onKeyDown={(e) => props.onKeyDown(e)} 
+				/>
 		</div>
 	)
 }
-
 
 export default TodoForm
 

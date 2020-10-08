@@ -1,17 +1,27 @@
-.TodoForm {
-	width: 100%;
-	display: flex;
+$blue: #1a73e8;
+
+.form {
+	width: 90%;
+  display: flex;
+  margin: 0 auto;
 	height: 4vh;
 	
 	
-	.TodoForm__button {
-		width: 20%;
-		cursor: pointer;
+	&__button {
+    width: 25%;
+    border-radius: 5px 0 0 5px ;
+    cursor: pointer;
+    background-color: $blue;
+    color: white;
+    border: none;
 	}
 
-	.TodoForm__text {
+	&__text {
 		width: 80%;
-		outline: none;	
+    outline: none;
+    padding: 0 10px;
+    border-radius: 0 5px 5px 0;	
+    border: none;
 	}
 }
 
