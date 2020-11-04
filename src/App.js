@@ -12,7 +12,7 @@ class App extends Component {
     tasks: [],
     priority: '2'
   }
-  
+
   onToggle = id => {
     this.setState(prevState => {
       return {tasks: prevState.tasks.map(task => {
@@ -136,8 +136,8 @@ class App extends Component {
 
   render() {
 
-    const completedTasks = this.state.tasks.filter(task => task.completed);
-    const activeTasks = this.state.tasks.filter(task => !task.completed);
+const completedTasks = this.state.tasks.filter(task => task.completed);
+	const activeTasks = this.state.tasks.filter(task => !task.completed);
     
     let classForIcon = ['wrap-icon__toggle-all', 'fas', 'fa-angle-down'];
 
