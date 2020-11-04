@@ -140,7 +140,7 @@ class App extends Component {
 	const activeTasks = this.state.tasks.filter(task => !task.completed);
 export type AAA = {
 	current: CurrentCinemaRepertoire,
-	upcoming: UpcomingCinemaRepertoire,
+    upcoming: UpcomingCinemaRepertoire,
 }
     
     let classForIcon = ['wrap-icon__toggle-all', 'fas', 'fa-angle-down'];
