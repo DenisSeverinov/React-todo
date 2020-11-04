@@ -129,10 +129,10 @@ class App extends Component {
    this.setState({tasks: tasks || []});
   }
 
-  componentDidUpdate() {
+componentDidUpdate() {
     localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
     this.inputRef.focus()
-  }
+}
 
   render() {
 
