@@ -108,11 +108,11 @@ class App extends Component {
     })
   }
 
-  handleButtonSortAscending = () => {
-    this.setState(prevState => {
-      return {tasks: prevState.tasks.sort((a, b) => a.priority - b.priority)}
-    }) 
-  }
+handleButtonSortAscending = () => {
+	this.setState(prevState => {
+		return {tasks: prevState.tasks.sort((a, b) => a.priority - b.priority)}
+	}) 
+}
 
 handleButtonSortDescending = () => {
 	this.setState(prevState => {
