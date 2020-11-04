@@ -23,7 +23,6 @@ class App extends Component {
       })}
     })
   }
-
   handelSubmit = () => {
 
     if (this.inputRef.value.trim()) {
