@@ -114,11 +114,11 @@ class App extends Component {
     }) 
   }
 
-  handleButtonSortDescending = () => {
-    this.setState(prevState => {
-      return {tasks: prevState.tasks.sort((a, b) => b.priority - a.priority)}
-    })
-  }
+handleButtonSortDescending = () => {
+	this.setState(prevState => {
+		return {tasks: prevState.tasks.sort((a, b) => b.priority - a.priority)}
+	})
+}
 
   generationId() {
     return Math.random().toString(36).substr(2, 9);
@@ -130,8 +130,8 @@ class App extends Component {
   }
 
 componentDidUpdate() {
-    localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
-    this.inputRef.focus()
+	localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
+	this.inputRef.focus()
 }
 
   render() {
