@@ -104,12 +104,12 @@ class App extends Component {
 
   onChangeSelect = (e) => {
     this.setState({
-      priority: e.target.value
+     priority: e.target.value
     })
   }
 
 handleButtonSortAscending = () => {
-	this.setState(prevState => {
+this.setState(prevState => {
 		return {tasks: prevState.tasks.sort((a, b) => a.priority - b.priority)}
 	}) 
 }
